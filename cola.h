@@ -1,28 +1,27 @@
+
+#include <stdlib.h>
+#include <string.h>
 #ifndef COLA_H
 #define COLA_H
+
 typedef int tipo_dato;
 
-typedef struct Nodo {
-    tipo_dato *dato;
-    struct Nodo *siguiente;
-}nodo;
- 
-typedef struct ListaUbicacion{
-  nodo *inicio;
-  nodo *fin;
-  int tamanio;
-} Cola;
+typedef struct nodo{
+    tipo_dato dato;
+    struct nodo* siguiente;
+}nodo_cola;
 
-void inicializacion_cola (Cola * serie);
+typedef struct cola{
+    nodo_cola* primer;
+    nodo_cola* ultimo;
+}Cola;
 
-int insertar_cola (Cola * serie, nodo * actual, char *dato);
-
-int quitar_cola (Cola * serie);
-
-void imprimir_cola(Cola *serie);
-
-
-
+void crearCola(Cola *cola);
+void insertar(Cola *cola,int elemento);
+int quitar(Cola *cola);
+void borrarCola(Cola *cola);
+int frente(Cola *cola);
+int colaVacia(Cola *cola);
 
 #endif
 

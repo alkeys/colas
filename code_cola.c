@@ -1,72 +1,47 @@
- #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "cola.h"
+#include <stdio.h>
+#include <stdlib.h>
 
+void crearCola(Cola *cola) {
+    cola->primer = cola->ultimo = NULL;
+}
 
-void inicializacion_cola (Cola * serie){
-  serie->inicio = NULL;
-  serie->fin = NULL;
-  serie->tamanio = 0;
+void insertar(Cola *cola, int elemento) {
+    nodo_cola *a;
+    a = (nodo_cola*) malloc(sizeof (nodo_cola));
+    a->dato = elemento;
+    a -> siguiente = NULL;
+    if (cola -> primer == NULL) {
+        cola -> primer = a;
+    } else {
+        cola -> ultimo -> siguiente = a;
+    }
+    cola -> ultimo = a;
 }
- 
-int insertar_cola (Cola * serie, nodo * actual, char *dato){
-  
-  nodo *nuevo_elemento;
-  
-  if ((nuevo_elemento = (nodo *) malloc (sizeof (nodo))) == NULL)
-        return -1;
-  if ((nuevo_elemento->dato = (char *) malloc (50 * sizeof (char)))== NULL)
-        return -1;
-  
-  strcpy (nuevo_elemento->dato, dato);
- 
-  if(actual == NULL)
-  {
-    if(serie->tamanio == 0)
-    {
-                
-        serie->fin = nuevo_elemento;
-        }
-        nuevo_elemento->siguiente = serie->inicio;
-        serie->inicio = nuevo_elemento;
-  } 
-  else 
-  {
-    if(actual->siguiente == NULL)
-        serie->fin = nuevo_elemento;
-        
-        nuevo_elemento->siguiente = actual->siguiente;
-        actual->siguiente = nuevo_elemento;
-  }
-  serie->tamanio++;
-  return 0;
+
+int quitar(Cola *cola) {
+    int e;
+    nodo_cola *a;
+    if (!colaVacia(cola)) {
+        e = cola -> primer -> dato;
+        a = cola -> primer;
+        cola -> primer = cola -> primer -> siguiente;
+        free(a);
+        return e;
+    }
 }
- 
-int quitar_cola (Cola * serie)
-{
-  nodo *sup_elemento;
-  
-  if (serie->tamanio == 0)
-    return -1;
-  
-  sup_elemento = serie->inicio;
-  serie->inicio = serie->inicio->siguiente;
-  
-  free (sup_elemento->dato);
-  free (sup_elemento);
-  
-  serie->tamanio--;
-  return 0;
+
+void borrarCola(Cola *cola) {
+    while (!colaVacia(cola)) {
+        printf("%d - ", quitar(cola));
+    }
 }
- 
-void imprimir_cola(Cola *serie){
-  nodo *actual;
-  int i;
-  actual = serie->inicio;
- 
-  for(i=0;i<serie->tamanio;++i){
-    printf("%p - %s \n",actual, actual->dato);
-    actual = actual->siguiente;
-  }
+
+int frente(Cola *cola) {
+    if (!colaVacia(cola)) return cola -> primer-> dato;
+}
+
+int colaVacia(Cola *cola) {
+    if (cola -> primer == NULL) return 1;
+    else return 0;
 }
